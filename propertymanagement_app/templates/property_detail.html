@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Details</title>
+</head>
+<body>
+    <h1>Property: {{ property.name }}</h1>
+    <p>Address: {{ property.address }}</p>
+    <p>Location: {{ property.location }}</p>
+
+    <h2>Units:</h2>
+    <ul>
+        {% for unit in units %}
+            <li>
+                {{ unit.unit_type }} - Rent: {{ unit.rent_cost }}
+                {% if unit.tenants.all %}
+                    <h3>Assigned Tenants:</h3>
+                    <ul>
+                        {% for tenant in unit.tenants.all %}
+                            <li>Tenant: {{ tenant.tenant_profile.name }} - Agreement End Date: {{ tenant.agreement_end_date }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No tenants assigned to this unit.</p>
+                    <form method="post" action="{% url 'assign-tenant' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="unit_id" value="{{ unit.id }}">
+                        <label for="tenant">Assign Tenant:</label>
+                        <select name="tenant_id" id="tenant">
+                            {% for available_tenant in unit.tenants.all %}
+                                <option value="{{ available_tenant.id }}">{{ available_tenant.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Assign</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

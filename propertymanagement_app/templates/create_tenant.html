@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Tenant</title>
+</head>
+<body>
+    <h1>Create Tenant Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter name"><br><br>
+        
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" placeholder="Enter address"></textarea><br><br>
+        
+        <label for="document_type">Document Type:</label>
+        <select id="document_type" name="document_type">
+            <option value="passport">Passport</option>
+            <option value="license">Driver License</option>
+            <option value="id_card">ID Card</option>
+        </select><br><br>
+        
+        <label for="document_proof">Document Proof:</label>
+        <input type="file" id="document_proof" name="document_proof"><br><br>
+        
+        
+        <button type="submit">Create Profile</button>
+    </form>
+    <h2>list tenant</h2>
+    {% for i in tenantProfile %}
+    {{i.name}}
+    {% endfor %}
+
+</body>
+</html>
