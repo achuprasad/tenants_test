@@ -1,32 +1,67 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <form method="GET" action="{% url 'create-property' %}">
-            <button type="submit">Create Property</button>
-        </form>
-       {% for i in props %}
-        {{i.name}}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Property Management</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        form {
+            margin-bottom: 10px;
+        }
+        button, a {
+            padding: 8px 15px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        button:hover, a:hover {
+            background-color: #2980b9;
+        }
+        .property-container {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .property-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .unit-button {
+            margin-bottom: 5px;
+        }
+        .tenant-button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form method="GET" action="{% url 'create-property' %}">
+        <button type="submit">Create Property</button>
+    </form>
+    {% for i in props %}
+    <div class="property-container">
+        <div class="property-name">{{ i.name }}</div>
         <form method="get" action="{% url 'create-unit' %}">
             {% csrf_token %}
-            <input type='hidden' name='prop_id' value={{i.id}}>
-            <button>add unit</button>
+            <input type='hidden' name='prop_id' value={{ i.id }}>
+            <button class="unit-button">Add Unit</button>
         </form>
-        <button><a href='/property/?prop_id={{i.id}}'>list all property</a></button>
-       {% endfor %}
-
-
-       <button><a href="/create-tenant-profile/">Create Tenant</a></button>
-    </body>
+        <a class="tenant-button" href='/property/?prop_id={{ i.id }}'>List All Property</a>
+    </div>
+    {% endfor %}
+    <a href="/create-tenant-profile/">Create Tenant</a>
+</body>
 </html>
